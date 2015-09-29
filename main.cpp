@@ -53,6 +53,36 @@ int main(int argc, char const *argv[]) {
     // Render the rect to the screen
     SDL_RenderPresent(renderer);
 
+    SDL_Event e;
+    bool quit = false;
+    while (!quit) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+            if (e.type == SDL_KEYDOWN) {
+                switch (e.key.keysym.sym) {
+                case SDLK_q:
+                    quit = true;
+                    break;
+                case SDLK_LEFT:
+                    platform.x-=5;
+                    break;
+                case SDLK_RIGHT:
+                    platform.x+=5;
+                    break;
+                }
+            }
+
+            // Re-rendering
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            SDL_RenderFillRect(renderer, &platform);
+            SDL_RenderPresent(renderer);
+        }
+    }
+
     SDL_DestroyWindow(window);
     SDL_Quit();
 
