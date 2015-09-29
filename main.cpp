@@ -32,8 +32,29 @@ int main(int argc, char const *argv[]) {
         return 1;
     }
 
-    std::cout << "Sleeping for a second..." << std::endl;
-    usleep(1000000);
+    // Setting background color to black
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    // Creat a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
+    SDL_Rect platform = {
+        .x = (640 - 200) / 2,
+        .y = (480 - 20),
+        .w = 200,
+        .h = 20
+    };
+
+    // Set render color to blue ( rect will be rendered in this color )
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+    // Render rect
+    SDL_RenderFillRect(renderer, &platform);
+
+    // Render the rect to the screen
+    SDL_RenderPresent(renderer);
+
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     std::cout << "Exiting nicely" << std::endl;
     return 0;
