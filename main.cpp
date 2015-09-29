@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unistd.h>
 #include "SDL2/SDL.h"
 
 int main(int argc, char const *argv[]) {
@@ -73,14 +72,18 @@ int main(int argc, char const *argv[]) {
                     break;
                 }
             }
-
-            // Re-rendering
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL_RenderClear(renderer);
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-            SDL_RenderFillRect(renderer, &platform);
-            SDL_RenderPresent(renderer);
+            if (e.type == SDL_MOUSEMOTION) {
+                platform.x = e.motion.x - 100;
+            }
         }
+
+        // Re-rendering
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        SDL_RenderFillRect(renderer, &platform);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(1);
     }
 
     SDL_DestroyWindow(window);
