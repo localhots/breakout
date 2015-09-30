@@ -48,7 +48,7 @@ int main(int argc, char const *argv[]) {
     SDL_RenderClear(renderer);
 
     // Creat a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
-    SDL_Rect platform = {
+    SDL_Rect pad = {
         .x = (SCREEN_WIDTH - PAD_WIDTH) / 2,
         .y = (SCREEN_HEIGHT - PAD_HEIGHT),
         .w = PAD_WIDTH,
@@ -59,7 +59,7 @@ int main(int argc, char const *argv[]) {
     SDL_SetRenderDrawColor(renderer, PAD_COLOR);
 
     // Render rect
-    SDL_RenderFillRect(renderer, &platform);
+    SDL_RenderFillRect(renderer, &pad);
 
     // Render the rect to the screen
     SDL_RenderPresent(renderer);
@@ -77,21 +77,21 @@ int main(int argc, char const *argv[]) {
                     quit = true;
                     break;
                 case SDLK_LEFT:
-                    platform.x -= KEY_MOVE_STEP;
+                    pad.x -= KEY_MOVE_STEP;
                     break;
                 case SDLK_RIGHT:
-                    platform.x += KEY_MOVE_STEP;
+                    pad.x += KEY_MOVE_STEP;
                     break;
                 }
             }
             if (e.type == SDL_MOUSEMOTION) {
-                platform.x = e.motion.x - PAD_WIDTH / 2;
+                pad.x = e.motion.x - PAD_WIDTH / 2;
             }
 
-            if (platform.x < 0) {
-                platform.x = 0;
-            } else if (platform.x > SCREEN_WIDTH - PAD_WIDTH) {
-                platform.x = SCREEN_WIDTH - PAD_WIDTH;
+            if (pad.x < 0) {
+                pad.x = 0;
+            } else if (pad.x > SCREEN_WIDTH - PAD_WIDTH) {
+                pad.x = SCREEN_WIDTH - PAD_WIDTH;
             }
         }
 
@@ -99,7 +99,7 @@ int main(int argc, char const *argv[]) {
         SDL_SetRenderDrawColor(renderer, BG_COLOR);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, PAD_COLOR);
-        SDL_RenderFillRect(renderer, &platform);
+        SDL_RenderFillRect(renderer, &pad);
         SDL_RenderPresent(renderer);
         SDL_Delay(1);
     }
