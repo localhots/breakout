@@ -5,12 +5,15 @@
 #define SCREEN_WIDTH 407
 #define SCREEN_HEIGHT 600
 
+#define BALL_RADIUS 8
+
 #define PAD_WIDTH 100
 #define PAD_HEIGHT 10
 #define KEY_MOVE_STEP 5
 
 #define BRICK_ROWS 7
 #define BRICK_COLS 8
+#define NUM_BRICKS BRICK_ROWS*BRICK_COLS
 #define BRICK_WIDTH 50
 #define BRICK_HEIGHT 15
 
