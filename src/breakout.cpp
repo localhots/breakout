@@ -1,14 +1,15 @@
 #include <iostream>
 #include "SDL2/SDL.h"
-#include "breakout.h"
-#include "scene.h"
+#include "breakout.hpp"
+#include "scene.hpp"
 
 int main(int argc, char const *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        std::cout << "SDL_Init Error: " << std::endl;
         return 1;
     }
 
+    DEBUG("[?] Creating window");
     SDL_Window *window = SDL_CreateWindow(
         "Breakout",
         SCREEN_X, SCREEN_Y,
@@ -20,7 +21,9 @@ int main(int argc, char const *argv[]) {
         SDL_Quit();
         return 1;
     }
+    DEBUG("[!] Window created");
 
+    DEBUG("[?] Creating renderer");
     SDL_Renderer *renderer = SDL_CreateRenderer(
         window, // Window
         -1,     // Video driver. -1 means "any compatible"
@@ -32,15 +35,14 @@ int main(int argc, char const *argv[]) {
         SDL_Quit();
         return 1;
     }
+    DEBUG("[!] Renderer created");
 
-    Scene scene(window, renderer);
+    Scene scene(renderer);
 
     SDL_Event e;
     bool quit = false;
     while (!quit) {
-        bool has_event = false;
         while (SDL_PollEvent(&e)) {
-            has_event = true;
             if (e.type == SDL_QUIT) {
                 quit = true;
             }
@@ -62,11 +64,8 @@ int main(int argc, char const *argv[]) {
             }
         }
 
-        if (has_event) {
-            scene.render();
-        } else {
-            SDL_Delay(1);
-        }
+        scene.render();
+        SDL_Delay(10);
     }
 
     SDL_DestroyWindow(window);
