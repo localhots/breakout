@@ -11,12 +11,20 @@ typedef enum Color {
     PURPLE
 } Color;
 
+typedef enum BounceDirection {
+    None,
+    Top,
+    Bottom,
+    Left,
+    Right
+} BounceDirection;
+
 class Brick {
 public:
     Brick(SDL_Renderer *r, int x, int y, Color c);
     ~Brick();
 
-    bool collides_with(int x1, int y1, int x2, int y2);
+    BounceDirection collide(int x1, int y1, int x2, int y2);
     void destroy();
     void render();
 private:

@@ -12,14 +12,29 @@ Brick::Brick(SDL_Renderer *r, int x, int y, Color c) {
 
 Brick::~Brick() {}
 
-bool Brick::collides_with(int x1, int y1, int x2, int y2) {
-    return (
+BounceDirection Brick::collide(int x1, int y1, int x2, int y2) {
+    if (!(
         visible &&
-        brick.x < x2 &&
-        brick.x + BRICK_WIDTH > x1 &&
-        brick.y < y2 &&
-        brick.y + BRICK_HEIGHT > y1
-    );
+        brick.x <= x2 &&
+        brick.x + BRICK_WIDTH >= x1 &&
+        brick.y <= y2 &&
+        brick.y + BRICK_HEIGHT >= y1
+    )) {
+        return None;
+    }
+
+    if (y1 <= brick.y - BRICK_HEIGHT/2) {
+        return Bottom;
+    } else if (y1 >= brick.y + (BRICK_HEIGHT/2)) {
+        return Top;
+    } else if (x1 < brick.x) {
+        return Left;
+    } else if (x1 > brick.x) {
+        return Right;
+    } else {
+        DEBUG("WTF!");
+        return None;
+    }
 }
 
 void Brick::destroy() {

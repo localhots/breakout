@@ -66,9 +66,16 @@ void Scene::move_pad_relative(int delta) {
 }
 
 void Scene::launch_ball() {
+    ball.x = SCREEN_WIDTH/2 - BALL_RADIUS;
+    ball.y = SCREEN_HEIGHT/2 - BALL_RADIUS;
     ball_moving = true;
+
     ball_velx = 3;
-    ball_vely = -2;
+    ball_vely = 5;
+
+    if (rand() > RAND_MAX/2) {
+        ball_velx = -ball_velx;
+    }
 }
 
 void Scene::move_ball() {
@@ -95,22 +102,34 @@ void Scene::move_ball() {
     }
     // Bottom
     if (ball.y >= SCREEN_HEIGHT) {
-        // Game over
+        launch_ball();
+        DEBUG("Loser!");
     }
     // Pad
     if (ball.x >= pad.x && ball.x <= pad.x + PAD_WIDTH && ball.y + 2*BALL_RADIUS >= pad.y) {
         ball_vely = -ball_vely;
     }
     // Bricks
-    for (int i = NUM_BRICKS; i > 0; --i) {
+    for (int i = NUM_BRICKS; i >= 0; --i) {
         int x1 = ball.x;
         int y1 = ball.y;
         int x2 = ball.x + 2*BALL_RADIUS;
         int y2 = ball.y + 2*BALL_RADIUS;
 
-        if (bricks[i].collides_with(x1, y1, x2, y2)) {
+        BounceDirection dir = bricks[i].collide(x1, y1, x2, y2);
+        switch (dir) {
+        case None:
+            continue;
+        case Top:
+        case Bottom:
             ball_vely = -ball_vely;
-            bricks[i].destroy();
+            break;
+        case Left:
+        case Right:
+            ball_velx = -ball_velx;
+            break;
         }
+
+        bricks[i].destroy();
     }
 }
